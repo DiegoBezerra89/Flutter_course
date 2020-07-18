@@ -1,31 +1,65 @@
 import 'package:flutter/material.dart';
 
+import './question.dart';
+import './answer.dart';
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  var _questionIndex = 0;
+  void answerQuestion() {
+    setState(() {
+      _questionIndex += 1;
+    });
+    print(_questionIndex);
+  }
+  
   @override
   Widget build(BuildContext context) {
+    const questions = [
+      {
+        'questionText': 'What\'s your favorite color(test)?',
+        'answers': ['Red', 'Yellow', 'Green', 'Black'],
+        'colors': ['red',]
+      },
+      {
+        'questionText': 'What\'s your favorite animal?',
+        'answers': ['Tiger', 'Dog', 'Cat', 'Lion', 'Eagle'],
+      },
+      {
+        'questionText': 'What\'s your favorite food?',
+        'answers': ['Sushi', 'Hot-Dog', 'Pizza'],
+      },
+      {
+        'questionText': 'What\'s your favorite game?',
+        'answers': ['Cs-go', 'Fortnite', 'Zelda'],
+      },
+    ];
+    
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('Hello World! My first app!'),
         ),
-        body: Column(
-          children: [
-            Text('The question'),
-            RaisedButton(
-              child: Text('Answer 1'),
-              onPressed: null,
-            ),
-            RaisedButton(
-              child: Text('Answer 2'),
-              onPressed: null,
-            ),
-            RaisedButton(
-              child: Text('Answer 3'),
-              onPressed: null,
-            ),
-          ],
+        body: Container (
+          child: Column (
+            children: [
+              Question(
+                questions[_questionIndex]['questionText'],
+              ),
+              ...(questions[_questionIndex]['answers'] as List<String>)
+                  .map((answer) {
+                return Answer(answerQuestion, answer);
+              }).toList()
+            ],
+          ),
         ),
       ),
     );
