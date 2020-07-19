@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
+import './result.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -14,53 +15,74 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
-  void answerQuestion() {
+  var _totalScore = 0;
+  void _resetQuiz () {
     setState(() {
-      _questionIndex += 1;
+      _questionIndex = 0;
+      _totalScore = 0;  
     });
-    print(_questionIndex);
   }
-  
+  final _questions = const [
+    {
+      'questionText': 'What\'s your favorite color? ',
+      'answers': [
+        {'text': 'Red', 'score': 8,},
+        {'text': 'Blue', 'score': 5,},
+        {'text': 'Black', 'score': 3,},
+        {'text': 'Green', 'score': 2,},
+      ],
+    },
+    {
+      'questionText': 'What\'s your favorite animal?',
+      'answers': [
+        {'text': 'Tiger', 'score': 8,},
+        {'text': 'Eagle', 'score': 5,},
+        {'text': 'Lion', 'score': 3,},
+        {'text': 'Dog', 'score': 2,},
+      ],
+    },
+    {
+      'questionText': 'What\'s your favorite food?',
+      'answers': [
+        {'text': 'Sushi', 'score': 8,},
+        {'text': 'Hot-Dog', 'score': 5},
+        {'text': 'Pizza', 'score': 3},
+        {'text': 'Lasagna', 'score': 2},
+      ],
+    },
+    {
+      'questionText': 'What\'s your favorite game?',
+      'answers': [
+        {'text': 'Cs-go', 'score': 8,},
+        {'text': 'God of War', 'score': 5},
+        {'text': 'Fortnite', 'score': 3},
+        {'text': 'Zelda', 'score': 2},
+      ],
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
-    const questions = [
-      {
-        'questionText': 'What\'s your favorite color(test)?',
-        'answers': ['Red', 'Yellow', 'Green', 'Black'],
-        'colors': ['red',]
-      },
-      {
-        'questionText': 'What\'s your favorite animal?',
-        'answers': ['Tiger', 'Dog', 'Cat', 'Lion', 'Eagle'],
-      },
-      {
-        'questionText': 'What\'s your favorite food?',
-        'answers': ['Sushi', 'Hot-Dog', 'Pizza'],
-      },
-      {
-        'questionText': 'What\'s your favorite game?',
-        'answers': ['Cs-go', 'Fortnite', 'Zelda'],
-      },
-    ];
-    
+    void _answerQuestion(int score) {
+      _totalScore += score;
+      setState(() {
+        _questionIndex = _questionIndex + 1;
+      });
+      print(_questionIndex);
+    }
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('Hello World! My first app!'),
         ),
-        body: Container (
-          child: Column (
-            children: [
-              Question(
-                questions[_questionIndex]['questionText'],
-              ),
-              ...(questions[_questionIndex]['answers'] as List<String>)
-                  .map((answer) {
-                return Answer(answerQuestion, answer);
-              }).toList()
-            ],
-          ),
-        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: _answerQuestion,
+                questionIndex: _questionIndex,
+                questions: _questions,
+              )
+            : Result(_totalScore, _resetQuiz),
       ),
     );
   }
