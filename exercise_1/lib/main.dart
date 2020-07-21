@@ -16,7 +16,7 @@ class _MyAppState extends State<MyApp> {
   var buttonTextReset = 'Reset';
   var flagButton = false;
 
-  void resetText () {
+  void resetText() {
     setState(() {
       buttonText = 'Press Me';
       mainText = 'This Text will change...';
@@ -33,6 +33,7 @@ class _MyAppState extends State<MyApp> {
         flagButton = true;
       });
     }
+
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
@@ -43,16 +44,23 @@ class _MyAppState extends State<MyApp> {
               TextControl(mainText),
               Container(
                 child: RaisedButton(
+                  color: Colors.green,
+                  textColor: Colors.white,
                   onPressed: changeText,
                   child: Text(buttonText),
                 ),
               ),
-              if (flagButton) Container(
-                child: RaisedButton(
-                  onPressed: resetText,
-                  child: Text(buttonTextReset),
-                ),
-              ) else Text(' '),
+              if (flagButton)
+                Container(
+                  child: RaisedButton(
+                    color: Colors.yellow[800],
+                    textColor: Colors.white,
+                    onPressed: resetText,
+                    child: Text(buttonTextReset),
+                  ),
+                )
+              else
+                Text(' '),
             ],
           )),
     );
