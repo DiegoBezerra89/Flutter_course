@@ -38,11 +38,8 @@ main() {
       ),
     ],
   );
-
   print('O valor total da venda foi de: R\$ ${venda.valorTotal}');
-  
 }
-
 String clienteEx(venda) {
   return '${venda.cliente['nome']}, ${venda.cliente['cpf']}';
 }

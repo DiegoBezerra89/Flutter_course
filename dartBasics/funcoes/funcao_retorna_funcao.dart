@@ -74,6 +74,6 @@ void main() {
   print(calculator('+'));
   calculator = calc(5, 7);
   print(calculator('*'));
-  calculator(7,3);
+  calculator = calc(8,3);
   print(calculator('/'));
 }

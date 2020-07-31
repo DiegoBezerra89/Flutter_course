@@ -1,47 +1,69 @@
 import 'package:flutter/material.dart';
+import './Question.dart';
+import './Resposta.dart';
 
 void main() => runApp(PerguntaApp());
 
-class PerguntaApp extends StatelessWidget {
-
-  Function() responder(int number) {
-    return (){
-      print('Pergunta respondida: $number');
-    }; 
+class _PerguntaAppState extends State<PerguntaApp> {
+  var _perguntaSelecionada = 0;
+  void _responder() {
+    setState(() {
+      _perguntaSelecionada++;
+    });
+    return print('Pergunta selecionada: $_perguntaSelecionada');
   }
 
+  final _perguntas = [
+    {
+      'texto': 'Qual a sua cor favorita?',
+      'respostas': ['verde', 'azul', 'vermelho', 'preto'],
+    },
+    {
+      'texto': 'Qual o seu animal favorito?',
+      'respostas': ['tigre', 'cachorro', 'gato', 'coelho'],
+    },
+    {
+      'texto': 'Qual o seu carro favorito?',
+      'respostas': ['Mercedes', 'Ferrari', 'Opala', 'BMW'],
+    },
+  ];
+
+  bool get temPerguntaSelecionada {
+    return _perguntaSelecionada < _perguntas.length;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final perguntas = [
-      'Qual a sua cor favorita?',
-      'Qual o seu animal favorito?',
-      'Qual o seu carro favorito?',
-    ];
+    List<String> respostas = temPerguntaSelecionada
+        ? _perguntas[_perguntaSelecionada]['respostas']
+        : null;
 
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Perguntas'),
-        ),
-        body: Column(
-          children: <Widget>[
-            Text(perguntas[0]),
-            RaisedButton(
-              child: Text('Resposta 1'),
-              onPressed: () => print('Resposta 1'),
-            ),
-            RaisedButton(
-              child: Text('Resposta 2'),
-              onPressed: () {
-                print('Resposta 2');
-              },
-            ),
-            RaisedButton(
-              child: Text('Resposta 3'),
-              onPressed: responder(3),
-            ),
-          ],
-        ),
-      ),
+          appBar: AppBar(
+            title: Text('Perguntas'),
+          ),
+          body: temPerguntaSelecionada
+              ? Column(
+                  children: <Widget>[
+                    Question(_perguntas[_perguntaSelecionada]['texto']),
+                    ...respostas.map((t) => Resposta(t, _responder)).toList()
+                  ],
+                )
+              : Center(
+                  child: Text(
+                    'Parabéns!',
+                    style: TextStyle(
+                      fontSize: 28,
+                    ),
+                  ),
+                )),
     );
+  }
+}
+
+class PerguntaApp extends StatefulWidget {
+  _PerguntaAppState createState() {
+    return _PerguntaAppState();
   }
 }
