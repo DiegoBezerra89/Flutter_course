@@ -1,11 +1,40 @@
 import 'package:flutter/material.dart';
-import './Question.dart';
-import './Resposta.dart';
+import './Resultado.dart';
+import './Questions.dart';
 
 void main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  final _perguntas = const [
+    {
+      'texto': 'Qual é a sua cor favorita?',
+      'respostas': [
+        'Preto',
+        'vermelho',
+        'verde',
+        'azul',
+      ]
+    },
+    {
+      'texto': 'Qual é o seu carro favorito?',
+      'respostas': [
+        'Peugeot',
+        'New Beetle',
+        'Fusca',
+        'BMW',
+      ]
+    },
+    {
+      'texto': 'Qual é o seu animal favorito?',
+      'respostas': [
+        'Cachorro',
+        'Gato',
+        'Cobra',
+        'coelhinho',
+      ]
+    },
+  ];
   void _responder() {
     setState(() {
       _perguntaSelecionada++;
@@ -13,20 +42,11 @@ class _PerguntaAppState extends State<PerguntaApp> {
     return print('Pergunta selecionada: $_perguntaSelecionada');
   }
 
-  final _perguntas = [
-    {
-      'texto': 'Qual a sua cor favorita?',
-      'respostas': ['verde', 'azul', 'vermelho', 'preto'],
-    },
-    {
-      'texto': 'Qual o seu animal favorito?',
-      'respostas': ['tigre', 'cachorro', 'gato', 'coelho'],
-    },
-    {
-      'texto': 'Qual o seu carro favorito?',
-      'respostas': ['Mercedes', 'Ferrari', 'Opala', 'BMW'],
-    },
-  ];
+  void reset() {
+    setState(() {
+      _perguntaSelecionada = 0;
+    });
+  }
 
   bool get temPerguntaSelecionada {
     return _perguntaSelecionada < _perguntas.length;
@@ -34,30 +54,33 @@ class _PerguntaAppState extends State<PerguntaApp> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> respostas = temPerguntaSelecionada
-        ? _perguntas[_perguntaSelecionada]['respostas']
-        : null;
-
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('Perguntas'),
-          ),
-          body: temPerguntaSelecionada
-              ? Column(
-                  children: <Widget>[
-                    Question(_perguntas[_perguntaSelecionada]['texto']),
-                    ...respostas.map((t) => Resposta(t, _responder)).toList()
-                  ],
-                )
-              : Center(
-                  child: Text(
-                    'Parabéns!',
-                    style: TextStyle(
-                      fontSize: 28,
+        appBar: AppBar(
+          title: Text('Boa do time'),
+        ),
+        body: temPerguntaSelecionada
+            ? Questions(
+                perguntaSelecionada: _perguntaSelecionada,
+                perguntas: _perguntas,
+                responder: _responder,
+              )
+            : Column(
+                children: [
+                  Resultado('PARABÉNS!'),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    width: double.infinity,
+                    child: RaisedButton(
+                      textColor: Colors.white,
+                      color: Colors.purple,
+                      onPressed: reset,
+                      child: Text('Reset'),
                     ),
                   ),
-                )),
+                ],
+              ),
+      ),
     );
   }
 }
