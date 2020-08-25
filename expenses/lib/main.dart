@@ -13,6 +13,20 @@ class ExpensesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: MyHomePage(),
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        accentColor: Colors.pinkAccent,
+        fontFamily: 'Quicksand',
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+        ),
+      ),
     );
   }
 }
@@ -23,56 +37,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _transactions = [
-    Transaction(
-      id: 't1',
-      title: 'PS4',
-      value: 2300.00,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'XBox One',
-      value: 2200.00,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't3',
-      title: 'Nintendo Switch',
-      value: 2700.00,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't4',
-      title: 'XBox Series X',
-      value: 4200.00,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't4',
-      title: 'XBox Series X',
-      value: 4200.00,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't6',
-      title: 'XBox Series S',
-      value: 3400.00,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't7',
-      title: 'PS5',
-      value: 4700.00,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't8',
-      title: 'Stadia',
-      value: 200.00,
-      date: DateTime.now(),
-    ),
-  ];
+  final List<Transaction> _transactions = [];
 
   _addTransaction(String title, double value) {
     final newTransaction = Transaction(
@@ -85,13 +50,15 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _transactions.add(newTransaction);
     });
+
+    Navigator.of(context).pop();
   }
 
   _openTransactionModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (_) {
-        return TransactionForm(null);
+        return TransactionForm(_addTransaction);
       },
     );
   }
@@ -115,12 +82,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               width: double.infinity,
               child: Card(
-                color: Colors.blue,
                 elevation: 5,
                 child: Text('Gráfico'),
               ),
             ),
-            TransactionList(_transactions),  
+            TransactionList(_transactions),
           ],
         ),
       ),
