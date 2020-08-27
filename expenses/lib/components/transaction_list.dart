@@ -15,10 +15,12 @@ class TransactionList extends StatelessWidget {
       child: transactions.isEmpty
           ? Column(
               children: <Widget>[
+                SizedBox(height: 20),
                 Text(
                   'Nenhuma transação cadastrada...',
                   style: Theme.of(context).textTheme.headline6,
                 ),
+                SizedBox(height: 20,),
                 Container(
                   height: 200,
                   child: Image.asset(
