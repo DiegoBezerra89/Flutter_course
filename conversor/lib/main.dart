@@ -31,6 +31,44 @@ class _HomeState extends State<Home> {
   double dollar;
   double euro;
 
+  final realController = TextEditingController();
+  final dollarController = TextEditingController();
+  final euroController = TextEditingController();
+
+  void _realChanged(String text) {
+    if(text.isEmpty){
+      _resetApp();
+    }
+    double real = double.parse(text);
+    dollarController.text = (real / dollar).toStringAsFixed(2);
+    euroController.text = (real / euro).toStringAsFixed(2);
+  }
+
+  void _dollarChanged(String text) {
+    if(text.isEmpty){
+      _resetApp();
+    }
+    double dollar = double.parse(text);
+    realController.text = (dollar * this.dollar).toStringAsFixed(2);
+    euroController.text = (dollar * this.dollar / this.euro).toStringAsFixed(2);
+  }
+
+  void _euroChanged(String text) {
+    if(text.isEmpty){
+      _resetApp();
+    }
+    double euro = double.parse(text);
+    realController.text = (euro * this.euro).toStringAsFixed(2);
+    dollarController.text = (euro * this.euro / this.dollar).toStringAsFixed(2);
+  }
+
+  void _resetApp() {
+    realController.text = '';
+    dollarController.text = '';
+    euroController.text = '';
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +122,28 @@ class _HomeState extends State<Home> {
                           size: 120.0,
                           color: Colors.amber,
                         ),
+                        buildTextField(
+                            'Real R\$', 'R\$ ', realController, _realChanged),
+                        buildTextField('Dollar USD', 'US\$ ', dollarController,
+                            _dollarChanged),
+                        buildTextField(
+                            'Euro €', '€ ', euroController, _euroChanged),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Container(
+                            height: 50,
+                            child: RaisedButton(
+                              color: Colors.amber,
+                              child: Text(
+                                'Nova consulta',
+                                style: TextStyle(
+                                  fontSize: 25,
+                                ),
+                              ),
+                              onPressed: _resetApp,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   );
@@ -97,4 +157,29 @@ class _HomeState extends State<Home> {
 Future<Map> getData() async {
   http.Response response = await http.get(request);
   return json.decode(response.body);
+}
+
+Widget buildTextField(String currencyLabel, String currencyPrefix,
+    TextEditingController c, Function f) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: TextField(
+      keyboardType: TextInputType.number,
+      controller: c,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: currencyLabel,
+        prefixText: currencyPrefix,
+        labelStyle: TextStyle(
+          color: Colors.amber,
+          fontSize: 22,
+        ),
+      ),
+      style: TextStyle(
+        color: Colors.amber,
+        fontSize: 22,
+      ),
+      onChanged: f,
+    ),
+  );
 }
