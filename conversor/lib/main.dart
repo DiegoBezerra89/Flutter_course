@@ -12,7 +12,7 @@ void main() async {
       primaryColor: Colors.white,
       inputDecorationTheme: InputDecorationTheme(
         enabledBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+            OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
         focusedBorder:
             OutlineInputBorder(borderSide: BorderSide(color: Colors.amber)),
         hintStyle: TextStyle(color: Colors.amber),
@@ -72,7 +72,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.grey[900],
         appBar: AppBar(
           title: Text(
             'Conver\$or de moeda\$',
