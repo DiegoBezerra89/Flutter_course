@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "744839254558",
+    "firebase_url": "https://lojinha-edbf1.firebaseio.com",
+    "project_id": "lojinha-edbf1",
+    "storage_bucket": "lojinha-edbf1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744839254558:android:4ba407337201269079d40f",
+        "android_client_info": {
+          "package_name": "br.com.diego.e_commerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744839254558-rlq7k1ugk83i16o4j3kpldod39jnbfto.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVme7kL3CHqQFKGtksHPVwV7zpi6NXIaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744839254558-rlq7k1ugk83i16o4j3kpldod39jnbfto.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
