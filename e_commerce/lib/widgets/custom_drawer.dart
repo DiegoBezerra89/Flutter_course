@@ -45,6 +45,7 @@ class CustomDrawer extends StatelessWidget {
                           fontFamily: 'Teko',
                           fontWeight: FontWeight.bold,
                           fontSize: 34.0,
+                          fontStyle: FontStyle.italic,
                         ),
                       ),
                     ),
